@@ -3,7 +3,7 @@
 #    jhSitemapgenerator.py 
 #    A multithreaded commandline tool to create sitemap.xml|.gz|.txt files from a website.
 #
-#    Copyright (C) 2014 by Jan Helbling <jan.helbling@gmail.com>
+#    Copyright (C) 2014 by Jan Helbling <jan.helbling@mailbox.org>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -221,7 +221,7 @@ class jhSitemapgenerator:
 		return url.replace('&AMP;','&').replace('&LT;','<').replace('&GT;','>').replace('&NBSP;',' ').replace('&EURO;','€').replace('&amp;','&').replace('&lt;','<').replace('&gt;','>').replace('&nbsp;',' ').replace('&euro;','€').replace('%3f','?').replace('%2B','+').replace('%2F','/').replace('%3D','=').replace('%7C','|').replace('%26','&').replace('%25','%').replace('%2C',',').replace('%3A',':').replace('%3B',';').replace('%3f','?').replace('%2b','+').replace('%2f','/').replace('%3d','=').replace('%7c','|').replace('%2c',',').replace('%3a',':').replace('%3b',';')
 
 if __name__ == '__main__':
-	parser	=	OptionParser(usage='%prog <http://|https:// -URL> [args]',version='%prog version {}\nLicense: GPL3+\nAuthor: Jan Helbling <jan.helbling@gmail.com>'.format(VERSION))
+	parser	=	OptionParser(usage='%prog <http://|https:// -URL> [args]',version='%prog version {}\nLicense: GPL3+\nAuthor: Jan Helbling <jan.helbling@mailbox.org>'.format(VERSION))
 	parser.add_option('-t','--threads',type='int',dest='threads',default=10,help='Number of threads, default 10.')
 	parser.add_option('-g','--gz',action='store_true',dest='gz',default=False,help='Also create a sitemap.xml.gz')
 	parser.add_option('-p','--plaintext',action='store_true',dest='plaintext',default=False,help='Also create a urllist.txt')
