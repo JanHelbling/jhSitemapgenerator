@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    jhSitemapgenerator.py 
 #    A multithreaded commandline tool to create sitemap.xml|.gz|.txt files from a website.
