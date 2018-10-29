@@ -42,11 +42,11 @@ class jhSitemapgenerator:
 	def __init__(self,url,thread_cnt,gz,plaintext):
 		global urls_to_scan
 		tmp_url_parsed		=	urllib.parse.urlparse(url)
-		if tmp_url_parsed.scheme not in ['http','https']:
-			print('You need to add https:// or http:// bevore the url!')
-			exit(1)
-		elif bad_urlschemes_regex.match(url):
+		if bad_urlschemes_regex.match(url):
 			print('What\'s \'{}://\' for a scheme? Try http:// or https://!'.format(tmp_url_parsed.scheme))
+			exit(1)
+		elif tmp_url_parsed.scheme not in ['http','https']:
+			print('You need to add https:// or http:// bevore the url!')
 			exit(1)
 		else:
 			url		=	tmp_url_parsed.scheme + '://'
