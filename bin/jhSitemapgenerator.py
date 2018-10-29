@@ -69,9 +69,9 @@ class jhSitemapgenerator:
 		self.threads		=	[]
 		self.gz			=	gz
 		self.plaintext		=	plaintext
-		self.__run()
+		self.__run__()
 	
-	def __run(self):
+	def __run__(self):
 		self.parsedurl		=	urllib.parse.urlparse(urls_to_scan[0])
 		self.host		=	self.parsedurl.netloc
 		self.path		=	self.parsedurl.path
@@ -80,31 +80,31 @@ class jhSitemapgenerator:
 			if urls_to_scan.__len__() == 0:
 				break
 			if urls_to_scan.__len__() == 1:
-				self.threads.append(Thread(target=self.__run_thread))
+				self.threads.append(Thread(target=self.__run_thread__))
 			elif self.thread_cnt > urls_to_scan.__len__() - 1:
 				for i in range(0,urls_to_scan.__len__() - 1):
-					self.threads.append(Thread(target=self.__run_thread))
+					self.threads.append(Thread(target=self.__run_thread__))
 			else:
 				for i in range(0,self.thread_cnt):
-					self.threads.append(Thread(target=self.__run_thread))
+					self.threads.append(Thread(target=self.__run_thread__))
 			for thread in self.threads:
 				thread.start()
 			for thread in self.threads:
 				thread.join()
 			del self.threads
-		self.__write_urls(scanned_urls)
+		self.__write_urls__(scanned_urls)
 		
 	
-	def __run_thread(self):
+	def __run_thread__(self):
 		global urls_to_scan,scanned_urls,not_html_urls
 		current_url		=	urls_to_scan.pop()
 		if current_url in urls_to_scan:
 			urls_to_scan.remove(current_url)
-		content			=	self.__get_page(current_url)
+		content			=	self.__get_page__(current_url)
 		if content != None and current_url not in scanned_urls:
 			print("Scanned URL:",current_url)
 			scanned_urls.append(current_url)
-			tmp_urls		=	self.__extract_urls(content)
+			tmp_urls		=	self.__extract_urls__(content)
 			for url in tmp_urls:
 				if url not in scanned_urls and url not in urls_to_scan and url not in not_html_urls:
 					urls_to_scan.append(url)
@@ -112,12 +112,12 @@ class jhSitemapgenerator:
 			not_html_urls.append(current_url)
 	
 	
-	def __extract_urls(self,content):
+	def __extract_urls__(self,content):
 		tmp_urls			=	url_regex.findall(content)
 		urls_to_return			=	[]
 		for url_to_parse in tmp_urls:
 			if not bad_urlschemes_regex.match(url_to_parse):
-				url_to_parse		=	self.__replace_html_chars(url_to_parse)
+				url_to_parse		=	self.__replace_html_chars__(url_to_parse)
 				if url_to_parse.startswith('http'):
 					p			=	urllib.parse.urlparse(url_to_parse)
 					if p.scheme == '':
@@ -147,7 +147,7 @@ class jhSitemapgenerator:
 						urls_to_return.append('http://'+self.host+'/'+url_to_parse)
 		return urls_to_return
 	
-	def __write_urls(self,url_list):
+	def __write_urls__(self,url_list):
 		global exit_success
 		if url_list.__len__() != 0:
 			try:
@@ -201,7 +201,7 @@ class jhSitemapgenerator:
 			exit(0)
 		exit(1)
 	
-	def __get_page(self,url):
+	def __get_page__(self,url):
 		global exit_success
 		try:
 			fd	=	urllib.request.urlopen(url)
@@ -217,7 +217,7 @@ class jhSitemapgenerator:
 			print('Error: {0}'.format(e.args[0]))
 			exit_success = False
 	
-	def __replace_html_chars(self,url):
+	def __replace_html_chars__(self,url):
 		return url.replace('&AMP;','&').replace('&LT;','<').replace('&GT;','>').replace('&NBSP;',' ').replace('&EURO;','€').replace('&amp;','&').replace('&lt;','<').replace('&gt;','>').replace('&nbsp;',' ').replace('&euro;','€').replace('%3f','?').replace('%2B','+').replace('%2F','/').replace('%3D','=').replace('%7C','|').replace('%26','&').replace('%25','%').replace('%2C',',').replace('%3A',':').replace('%3B',';').replace('%3f','?').replace('%2b','+').replace('%2f','/').replace('%3d','=').replace('%7c','|').replace('%2c',',').replace('%3a',':').replace('%3b',';')
 
 if __name__ == '__main__':
