@@ -22,6 +22,7 @@
 import urllib.request
 import urllib.parse
 import urllib.error
+import http
 import re
 import gzip
 from threading import Thread,Lock
@@ -222,6 +223,8 @@ class jhSitemapgenerator:
 		except IOError as e:
 			print('Error: {0}'.format(e.args[0]))
 			exit_success = False
+		except http.client.InvalidURL:
+			pass
 	
 	def __replace_html_chars__(self,url):
 		return url.replace('&AMP;','&').replace('&LT;','<').replace('&GT;','>').replace('&NBSP;',' ').replace('&EURO;','€').replace('&amp;','&').replace('&lt;','<').replace('&gt;','>').replace('&nbsp;',' ').replace('&euro;','€').replace('%3f','?').replace('%2B','+').replace('%2F','/').replace('%3D','=').replace('%7C','|').replace('%26','&').replace('%25','%').replace('%2C',',').replace('%3A',':').replace('%3B',';').replace('%3f','?').replace('%2b','+').replace('%2f','/').replace('%3d','=').replace('%7c','|').replace('%2c',',').replace('%3a',':').replace('%3b',';')
