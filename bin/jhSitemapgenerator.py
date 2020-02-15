@@ -134,7 +134,7 @@ class jhSitemapgenerator:
         tmp_urls = url_regex.findall(content)
         urls_to_return = []
         for url_to_parse in tmp_urls:
-            if not bad_urlschemes_regex.match(url_to_parse):
+            if not bad_urlschemes_regex.match(url_to_parse.lower()):
                 url_to_parse = self.__replace_html_chars__(url_to_parse)
                 if url_to_parse.startswith("http"):
                     p = urllib.parse.urlparse(url_to_parse)
