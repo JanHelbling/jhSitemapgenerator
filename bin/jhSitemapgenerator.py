@@ -28,7 +28,7 @@ import gzip
 from threading import Thread, Lock
 from optparse import OptionParser
 
-VERSION = "0.1.2"
+VERSION = "0.2"
 
 scanned_urls = []
 urls_to_scan = []
@@ -43,6 +43,17 @@ bad_urlschemes_regex = re.compile(
     "(aaa|aaas|about|acap|acct|adiumxtra|afp|afs|aim|app|apt|attachment|aw|barion|beshare|bitcoin|bolo|callto|cap|chrome|chrome-extension|com-eventbrite-attendee|cid|coap|coaps|content|crid|cvs|data|dav|dict|dlna-playsingle|dlna-playcontainer|dns|dtn|dvb|ed2k|facetime|fax|feed|file|finger|fish|ftp|geo|git|gizmoproject|go|gopher|gt|gtalk|h323|hcp|iax|icap|icon|im|imap|info|ipn|ipp|irc|irc6|ircs|iris|iris.beep|iris.xpc|iris.xpcs|iris.iws|itms|jabber|jar|jms|keyparc|lastfm|ldap|ldaps|magnet|mailserver|mailto|maps|market|message|mms|modem|ms-help|ms-settings-power|msnim|msrp|msrps|mtqp|mumble|mupdate|mvn|news|nfs|ni|nih|nntp|notes|oid|opaquelocktoken|outlook|pack|palm|paparazzi|pkcs11|platform|pop|prospero|proxy|psyc|query|reload|res|ressource|rmi|rsync|rtmfp|rtmp|rtsp|samp|secondlife|service|session|sftp|sgn|shttp|sieve|sip|sips|skype|smb|snews|snmp|soap.beep|soap.beeps|soldat|spotify|ssh|steam|stun|stuns|svn|tag|teamspeak|tel|telnet|tftp|things|thismessage|tn3270|tip|turn|turns|tv|udp|unreal|urmn|ut2004|vemmi|ventrillo|videotex|view-source|wais|webcal|ws|wss|wtai|wyciwyg|xcon|xcon-userid|xfire|xmlrpc.beep|xmlrpc.beeps|xmpp|xri|ymsgr|z39.50|z39.50r|z39.50s|doi|jdbc|stratum|javascript):"
 )
 
+http_headers = [
+    ('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)'), 
+    ('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'),
+    ('Accept-Language', 'en-us,en;q=0.5'), 
+    ('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7'),
+    ('Accept-Encoding', 'text/html'), 
+    ('Keep-Alive', '300'), 
+    ('Connection', 'keep-alive'), 
+    ('Pragma', 'no-cache'), 
+    ('Cache-Control' , 'no-cache')
+]
 
 class jhSitemapgenerator:
     def __init__(self, url, thread_cnt, gz, plaintext, lock):
@@ -80,6 +91,11 @@ class jhSitemapgenerator:
         self.gz = gz
         self.plaintext = plaintext
         self.lock = lock
+        
+        self.opener = urllib.request.build_opener()
+        self.opener.addheaders = http_headers
+        urllib.request.install_opener(self.opener)
+        
         self.__run__()
 
     def __run__(self):
